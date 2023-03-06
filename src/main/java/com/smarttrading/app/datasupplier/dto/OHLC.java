@@ -10,8 +10,8 @@ import java.math.BigDecimal;
 @Builder
 @Data
 public class OHLC {
-    private BigDecimal open;
-    private BigDecimal low;
-    private BigDecimal high;
-    private BigDecimal close;
+    private double open;
+    private double low;
+    private double high;
+    private double close;
 }

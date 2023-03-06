@@ -2,8 +2,8 @@ package com.smarttrading.app.datasupplier.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import pro.xstore.api.message.codes.PERIOD_CODE;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -12,6 +12,6 @@ import java.util.List;
 public class Instrument {
     private String symbol;
     private List<OHLC> candles;
-    private TimeFrame timeFrame;
-    private BigDecimal value;
+    private PERIOD_CODE timeFrame;
+    private double price;
 }

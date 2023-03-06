@@ -26,6 +26,14 @@ public class XtbAssembler {
                 0L);
     }
 
+    public String getTradesDirection(TradeRecord tradeRecord) {
+        if (tradeRecord.getCmd() == 0L) {
+            return "BUY";
+        } else if (tradeRecord.getCmd() == 1L) {
+            return "SELL";
+        } else return "unknown";
+    }
+
     private TRADE_TRANSACTION_TYPE getTransactionType(String type) {
         return switch (type) {
             case "OPEN" -> TRADE_TRANSACTION_TYPE.OPEN;
@@ -41,14 +49,6 @@ public class XtbAssembler {
         } else if (type.equals("SELL"))
             return TRADE_OPERATION_CODE.SELL;
         return null;
-    }
-
-    private String getTradesDirection(TradeRecord tradeRecord) {
-        if (tradeRecord.getCmd() == 0L) {
-            return "BUY";
-        } else if (tradeRecord.getCmd() == 1L) {
-            return "SELL";
-        } else return "unknown";
     }
 
 }
