@@ -55,6 +55,8 @@ public class XtbService {
 
     public void executeTrade(XtbRequest request) throws APIErrorResponse, APICommunicationException, IOException, APIReplyParseException, APICommandConstructionException {
         SyncAPIConnector connector = init();
+        Double price = getSymbolActualPrice(request.getSymbol());
+        request.setPrice(price);
         TradeTransactionCommand ttr = APICommandFactory.createTradeTransactionCommand(xtbAssembler.mapRequestToTrade(request, 0.0, 0.0, null));
         APICommandFactory.executeTradeTransactionCommand(connector, ttr);
     }
@@ -121,6 +123,17 @@ public class XtbService {
                     .volume(tradeRecord.getVolume())
                     .type("OPEN")
                     .tradeOperationCode("SELL")
+                    .symbol(tradeRecord.getSymbol())
+                    .build();
+            TradeTransactionCommand ttr = APICommandFactory.createTradeTransactionCommand(xtbAssembler.mapRequestToTrade(request, 0.0, 0.0, null));
+            APICommandFactory.executeTradeTransactionCommand(connector, ttr);
+        } else if (direction.equals("SELL")){
+            closeTrade(tradeRecord);
+            XtbRequest request = XtbRequest.builder()
+                    .price(getSymbolActualPrice(tradeRecord.getSymbol()))
+                    .volume(tradeRecord.getVolume())
+                    .type("OPEN")
+                    .tradeOperationCode("BUY")
                     .symbol(tradeRecord.getSymbol())
                     .build();
             TradeTransactionCommand ttr = APICommandFactory.createTradeTransactionCommand(xtbAssembler.mapRequestToTrade(request, 0.0, 0.0, null));

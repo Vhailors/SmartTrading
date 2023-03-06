@@ -26,20 +26,35 @@ public class XtbDataSupplierService {
 
     private final XtbService xtbService;
 
-    public Instrument getInstrumentData(PERIOD_CODE periodCode, String symbol, long candles) throws APIErrorResponse, APICommunicationException, IOException, APIReplyParseException, APICommandConstructionException {
+    public Instrument getInstrumentData(PERIOD_CODE periodCode, String symbol, long candles, boolean realValues) throws APIErrorResponse, APICommunicationException, IOException, APIReplyParseException, APICommandConstructionException {
         SyncAPIConnector connector = xtbService.init();
         ChartResponse chartResponse = APICommandFactory.executeChartLastCommand(connector, symbol, periodCode, DataSupplierUtils.getTimePeriodForReceiveCandles(periodCode, candles));
         double price = xtbService.getSymbolActualPrice(symbol);
-        return mapXtbResponseToInstrument(chartResponse, periodCode, symbol, price);
+        return mapXtbResponseToInstrument(chartResponse, periodCode, symbol, price, realValues);
     }
 
-    private Instrument mapXtbResponseToInstrument(ChartResponse chartResponse, PERIOD_CODE periodCode, String symbol, double value){
+    private Instrument mapXtbResponseToInstrument(ChartResponse chartResponse, PERIOD_CODE periodCode, String symbol, double value, boolean realValues) {
+
+        /*
+        * XTB usuwa w zwrotce API miejsce po przecinku. Np zamiast 1,326 jest to 1326.
+        * Wokraround: sprawdzenie aktualnej ceny, która jest zwracana normalnie i ilość miejsc po przecinku po jakiej zwraca XTB.
+        * Następnie przesunięcie wszystkich wartości przecinka o tyle miejsc
+        *
+        * */
+        int numberToMove;
+        if (realValues) {
+            numberToMove = DataSupplierUtils.countDecimalPlaces(value);
+        } else {
+            numberToMove = 0;
+        }
+
         List<RateInfoRecord> records = chartResponse.getRateInfos();
         List<OHLC> ohlc = records.stream().map(x -> OHLC.builder()
-                .open(x.getOpen())
-                .high(x.getHigh())
-                .low(x.getLow())
-                .close(x.getClose()).build()).toList();
+                .open(DataSupplierUtils.moveDecimalPointLeft(x.getOpen(), numberToMove))
+                .high(DataSupplierUtils.moveDecimalPointLeft(x.getHigh(), numberToMove))
+                .low(DataSupplierUtils.moveDecimalPointLeft(x.getLow(), numberToMove))
+                .close(DataSupplierUtils.moveDecimalPointLeft(x.getClose(), numberToMove))
+                .build()).toList();
         return Instrument.builder()
                 .timeFrame(periodCode)
                 .price(value)
