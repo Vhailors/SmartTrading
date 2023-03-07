@@ -1,7 +1,7 @@
-package com.smarttrading.app.xtb.controller;
+package com.smarttrading.app.xtb;
 
-import com.smarttrading.app.datasupplier.dto.Instrument;
-import com.smarttrading.app.datasupplier.service.XtbDataSupplierService;
+import com.smarttrading.app.xtb.datasupplier.dto.Instrument;
+import com.smarttrading.app.xtb.datasupplier.service.XtbDataSupplierService;
 import com.smarttrading.app.xtb.dto.XtbRequest;
 import com.smarttrading.app.xtb.serivce.XtbService;
 import lombok.AllArgsConstructor;

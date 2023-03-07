@@ -1,12 +1,10 @@
-package com.smarttrading.app.datasupplier.dto;
+package com.smarttrading.app.xtb.datasupplier.dto;
 
 import lombok.Builder;
 import lombok.Data;
 import pro.xstore.api.message.codes.PERIOD_CODE;
 
 import java.util.List;
-
-
 @Builder
 @Data
 public class Instrument {

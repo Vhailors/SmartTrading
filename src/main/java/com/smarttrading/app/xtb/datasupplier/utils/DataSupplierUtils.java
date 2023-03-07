@@ -1,4 +1,4 @@
-package com.smarttrading.app.datasupplier.utils;
+package com.smarttrading.app.xtb.datasupplier.utils;
 
 import pro.xstore.api.message.codes.PERIOD_CODE;
 

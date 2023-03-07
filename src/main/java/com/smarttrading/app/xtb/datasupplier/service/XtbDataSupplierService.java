@@ -1,8 +1,8 @@
-package com.smarttrading.app.datasupplier.service;
+package com.smarttrading.app.xtb.datasupplier.service;
 
-import com.smarttrading.app.datasupplier.dto.Instrument;
-import com.smarttrading.app.datasupplier.dto.OHLC;
-import com.smarttrading.app.datasupplier.utils.DataSupplierUtils;
+import com.smarttrading.app.xtb.datasupplier.dto.Instrument;
+import com.smarttrading.app.xtb.datasupplier.dto.OHLC;
+import com.smarttrading.app.xtb.datasupplier.utils.DataSupplierUtils;
 import com.smarttrading.app.xtb.serivce.XtbService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -36,11 +36,11 @@ public class XtbDataSupplierService {
     private Instrument mapXtbResponseToInstrument(ChartResponse chartResponse, PERIOD_CODE periodCode, String symbol, double value, boolean realValues) {
 
         /*
-        * XTB usuwa w zwrotce API miejsce po przecinku. Np zamiast 1,326 jest to 1326.
-        * Wokraround: sprawdzenie aktualnej ceny, która jest zwracana normalnie i ilość miejsc po przecinku po jakiej zwraca XTB.
-        * Następnie przesunięcie wszystkich wartości przecinka o tyle miejsc
-        *
-        * */
+         * XTB usuwa w zwrotce API miejsce po przecinku. Np zamiast 1,326 jest to 1326.
+         * Wokraround: sprawdzenie aktualnej ceny, która jest zwracana normalnie i ilość miejsc po przecinku po jakiej zwraca XTB.
+         * Następnie przesunięcie wszystkich wartości przecinka o tyle miejsc
+         *
+         * */
         int numberToMove;
         if (realValues) {
             numberToMove = DataSupplierUtils.countDecimalPlaces(value);
