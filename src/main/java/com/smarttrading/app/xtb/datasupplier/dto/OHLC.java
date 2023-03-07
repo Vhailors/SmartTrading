@@ -12,4 +12,6 @@ public class OHLC {
     private BigDecimal low;
     private BigDecimal high;
     private BigDecimal close;
+
+    private BigDecimal price;
 }

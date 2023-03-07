@@ -66,4 +66,5 @@ public class DataSupplierUtils {
         double multiplier = Math.pow(10, -x);
         return new BigDecimal(num*multiplier).setScale(5, RoundingMode.HALF_UP).stripTrailingZeros();
     }
+
 }
