@@ -1,5 +1,6 @@
 package com.smarttrading.app.xtb.datasupplier.service;
 
+import com.smarttrading.app.dto.OHLCV;
 import com.smarttrading.app.xtb.datasupplier.dto.Instrument;
 import com.smarttrading.app.xtb.datasupplier.dto.OHLC;
 import com.smarttrading.app.xtb.datasupplier.utils.DataSupplierUtils;
@@ -18,7 +19,6 @@ import pro.xstore.api.sync.SyncAPIConnector;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -49,7 +49,6 @@ public class XtbDataSupplierService {
             numberToMove = 0;
         }
 
-
         List<RateInfoRecord> records = chartResponse.getRateInfos();
 
 
@@ -59,20 +58,21 @@ public class XtbDataSupplierService {
                 .low(DataSupplierUtils.moveDecimalPointLeft(x.getOpen() + x.getLow(), numberToMove))
                 .close(DataSupplierUtils.moveDecimalPointLeft(x.getOpen() + x.getClose(), numberToMove))
                 .build()).toList();
-        /*
-        Integracja zwraca wartości jako minusowe kiedy są one poniżej wartości aktualnej, to może zaburzać algorytmy. Do weryfikacji jak powinno być
-        *List<OHLC> ohlc = records.stream().map(x -> OHLC.builder()
-                .open(DataSupplierUtils.moveDecimalPointLeft(Math.abs(x.getOpen()), numberToMove))
-                .high(DataSupplierUtils.moveDecimalPointLeft(Math.abs(x.getHigh()), numberToMove))
-                .low(DataSupplierUtils.moveDecimalPointLeft(Math.abs(x.getLow()), numberToMove))
-                .close(DataSupplierUtils.moveDecimalPointLeft(Math.abs(x.getClose()), numberToMove))
+
+        List<OHLCV> OHLCV = records.stream().map(x -> com.smarttrading.app.dto.OHLCV.builder()
+                .open(DataSupplierUtils.moveDecimalPointLeft(x.getOpen(), numberToMove).doubleValue())
+                .high(DataSupplierUtils.moveDecimalPointLeft(x.getOpen() + x.getHigh(), numberToMove).doubleValue())
+                .low(DataSupplierUtils.moveDecimalPointLeft(x.getOpen() + x.getLow(), numberToMove).doubleValue())
+                .close(DataSupplierUtils.moveDecimalPointLeft(x.getOpen() + x.getClose(), numberToMove).doubleValue())
+                .volume(x.getVol())
                 .build()).toList();
-                * */
+
 
         return Instrument.builder()
                 .timeFrame(periodCode)
                 .price(value)
                 .candles(ohlc)
+                .candlesDouble(OHLCV)
                 .symbol(symbol)
                 .build();
     }

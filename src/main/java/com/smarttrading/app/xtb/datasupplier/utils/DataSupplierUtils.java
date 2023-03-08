@@ -67,4 +67,6 @@ public class DataSupplierUtils {
         return new BigDecimal(num*multiplier).setScale(5, RoundingMode.HALF_UP).stripTrailingZeros();
     }
 
+
+
 }
