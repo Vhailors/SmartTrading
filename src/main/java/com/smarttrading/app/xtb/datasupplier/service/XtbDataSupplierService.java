@@ -1,6 +1,6 @@
 package com.smarttrading.app.xtb.datasupplier.service;
 
-import com.smarttrading.app.dto.OHLCV;
+import com.smarttrading.app.ai.dto.OHLCV;
 import com.smarttrading.app.xtb.datasupplier.dto.Instrument;
 import com.smarttrading.app.xtb.datasupplier.dto.OHLC;
 import com.smarttrading.app.xtb.datasupplier.utils.DataSupplierUtils;
@@ -24,7 +24,6 @@ import java.util.List;
 @Service
 
 public class XtbDataSupplierService {
-
     private final XtbService xtbService;
 
     public Instrument getInstrumentData(PERIOD_CODE periodCode, String symbol, long candles, boolean realValues) throws APIErrorResponse, APICommunicationException, IOException, APIReplyParseException, APICommandConstructionException {
@@ -36,12 +35,6 @@ public class XtbDataSupplierService {
 
     private Instrument mapXtbResponseToInstrument(ChartResponse chartResponse, PERIOD_CODE periodCode, String symbol, double value, boolean realValues) {
 
-        /*
-         * XTB usuwa w zwrotce API miejsce po przecinku. Np zamiast 1,326 jest to 1326.
-         * Wokraround: sprawdzenie aktualnej ceny, która jest zwracana normalnie i ilość miejsc po przecinku po jakiej zwraca XTB.
-         * Następnie przesunięcie wszystkich wartości przecinka o tyle miejsc
-         *
-         * */
         int numberToMove;
         if (realValues) {
             numberToMove = DataSupplierUtils.countDecimalPlaces(value);
@@ -51,7 +44,6 @@ public class XtbDataSupplierService {
 
         List<RateInfoRecord> records = chartResponse.getRateInfos();
 
-
         List<OHLC> ohlc = records.stream().map(x -> OHLC.builder()
                 .open(DataSupplierUtils.moveDecimalPointLeft(x.getOpen(), numberToMove))
                 .high(DataSupplierUtils.moveDecimalPointLeft(x.getOpen() + x.getHigh(), numberToMove))
@@ -59,7 +51,7 @@ public class XtbDataSupplierService {
                 .close(DataSupplierUtils.moveDecimalPointLeft(x.getOpen() + x.getClose(), numberToMove))
                 .build()).toList();
 
-        List<OHLCV> OHLCV = records.stream().map(x -> com.smarttrading.app.dto.OHLCV.builder()
+        List<OHLCV> OHLCV = records.stream().map(x -> com.smarttrading.app.ai.dto.OHLCV.builder()
                 .open(DataSupplierUtils.moveDecimalPointLeft(x.getOpen(), numberToMove).doubleValue())
                 .high(DataSupplierUtils.moveDecimalPointLeft(x.getOpen() + x.getHigh(), numberToMove).doubleValue())
                 .low(DataSupplierUtils.moveDecimalPointLeft(x.getOpen() + x.getLow(), numberToMove).doubleValue())

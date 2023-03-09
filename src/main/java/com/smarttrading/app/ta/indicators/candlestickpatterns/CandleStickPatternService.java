@@ -147,8 +147,6 @@ public class CandleStickPatternService {
         return true;
     }
 
-
-
     private boolean isWhite(OHLC ohlc) {
         return ohlc.getClose().compareTo(ohlc.getOpen()) > 0;
     }

@@ -2,8 +2,8 @@ package com.smarttrading.app.ai.service;
 
 import com.smarttrading.app.ai.model.RecurrentNets;
 import com.smarttrading.app.ai.utils.PlotUtil;
-import com.smarttrading.app.dto.PriceCategory;
-import com.smarttrading.app.dto.StockDataSetIterator;
+import com.smarttrading.app.ai.dto.PriceCategory;
+import com.smarttrading.app.ai.dto.StockDataSetIterator;
 import com.smarttrading.app.xtb.datasupplier.service.XtbDataSupplierService;
 import javafx.util.Pair;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,6 @@ import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.util.ModelSerializer;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
-import org.nd4j.linalg.io.ClassPathResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

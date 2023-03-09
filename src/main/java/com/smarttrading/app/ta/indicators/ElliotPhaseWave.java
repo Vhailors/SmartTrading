@@ -19,22 +19,7 @@ public class ElliotPhaseWave {
         return new ElliotWaveResponse(phase, trend);
     }
 
-    public BigDecimal calculateEMA(List<OHLC> data, int period) {
-        if (data.isEmpty()) {
-            return BigDecimal.ZERO;
-        }
-
-        BigDecimal k = BigDecimal.valueOf(2).divide(BigDecimal.valueOf(period + 1), MathContext.DECIMAL128);
-        BigDecimal ema = data.get(0).getClose();
-        for (int i = 1; i < data.size(); i++) {
-            BigDecimal close = data.get(i).getClose();
-            ema = close.multiply(k).add(ema.multiply(BigDecimal.ONE.subtract(k)));
-        }
-
-        return ema;
-    }
-
-    public ElliotWavePhase identifyElliotWavePhase(List<OHLC> data) {
+    private ElliotWavePhase identifyElliotWavePhase(List<OHLC> data) {
         if (data.size() < 50) {
             return null;
         }
@@ -66,9 +51,7 @@ public class ElliotPhaseWave {
             return ElliotWavePhase.ONE;
         }
     }
-
-
-    public Trend identifyTrend(List<OHLC> data) {
+    private Trend identifyTrend(List<OHLC> data) {
         if (data.size() < 20) {
             return null;
         }

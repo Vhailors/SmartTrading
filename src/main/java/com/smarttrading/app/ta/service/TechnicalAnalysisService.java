@@ -5,7 +5,6 @@ import com.smarttrading.app.ta.dto.ElliotWaveResponse;
 import com.smarttrading.app.ta.dto.SupportResistanceLevel;
 import com.smarttrading.app.ta.dto.CandleStickPatternResponse;
 import com.smarttrading.app.ta.dto.Trend;
-import com.smarttrading.app.ta.indicators.ChannelBreak;
 import com.smarttrading.app.ta.indicators.ElliotPhaseWave;
 import com.smarttrading.app.ta.indicators.SupportResistanceCalculator;
 import com.smarttrading.app.ta.indicators.candlestickpatterns.CandleStickPattern;
@@ -34,7 +33,6 @@ public class TechnicalAnalysisService {
     private final CandleStickPatternService candleStickPatternService;
 
     private final ElliotPhaseWave elliotPhaseWave;
-    private final ChannelBreak channelBreak;
 
     public CandleStickPatternResponse detectCandleStickPattern(PERIOD_CODE periodCode, String symbol, long candlesNum, boolean realValue) throws APIErrorResponse, APICommunicationException, IOException, APIReplyParseException, APICommandConstructionException {
         Instrument instrumentData =  xtbDataSupplierService.getInstrumentData(periodCode, symbol, candlesNum, realValue);
@@ -85,7 +83,6 @@ public class TechnicalAnalysisService {
     }
 
     public Map<String, SupportResistanceLevel> getSupportResistanceLevels(PERIOD_CODE periodCode, String symbol, long candlesNum, boolean realValue) throws APIErrorResponse, APICommunicationException, IOException, APIReplyParseException, APICommandConstructionException {
-        // TODO: 07.03.2023 Na pewno zły algorytm 
         Instrument instrumentData =  xtbDataSupplierService.getInstrumentData(periodCode, symbol, candlesNum, realValue);
         List<OHLC> candles = instrumentData.getCandles();
 

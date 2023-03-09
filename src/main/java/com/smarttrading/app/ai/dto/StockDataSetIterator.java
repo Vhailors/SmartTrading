@@ -1,4 +1,4 @@
-package com.smarttrading.app.dto;
+package com.smarttrading.app.ai.dto;
 
 import com.google.common.collect.ImmutableMap;
 import com.smarttrading.app.xtb.datasupplier.service.XtbDataSupplierService;

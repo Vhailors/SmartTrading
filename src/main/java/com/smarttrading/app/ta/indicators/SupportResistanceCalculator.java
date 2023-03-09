@@ -2,6 +2,7 @@ package com.smarttrading.app.ta.indicators;
 
 import com.smarttrading.app.ta.dto.SupportResistanceLevel;
 import com.smarttrading.app.xtb.datasupplier.dto.OHLC;
+import lombok.AllArgsConstructor;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -10,15 +11,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
 public class SupportResistanceCalculator {
 
     private List<OHLC> ohlcList;
     private int periods;
-
-    public SupportResistanceCalculator(List<OHLC> ohlcList, int periods) {
-        this.ohlcList = ohlcList;
-        this.periods = periods;
-    }
 
     public List<SupportResistanceLevel> calculateSupportLevels() {
         List<SupportResistanceLevel> supportLevels = new ArrayList<>();
@@ -108,7 +105,7 @@ public class SupportResistanceCalculator {
         return count;
     }
 
-    public static int calculateStochasticK(List<OHLC> ohlcList, int period) {
+    private int calculateStochasticK(List<OHLC> ohlcList, int period) {
         List<BigDecimal> prices = ohlcList.stream()
                 .skip(ohlcList.size() - period)
                 .map(OHLC::getClose)

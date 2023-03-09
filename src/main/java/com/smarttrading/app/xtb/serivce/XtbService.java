@@ -35,11 +35,8 @@ public class XtbService {
 
     @Value("${xtb.password}")
     private String password;
-
-    // ZŁA PRAKtYKA!
     @Autowired
     private XtbAssembler xtbAssembler;
-
 
     public XtbService(XtbAssembler xtbAssembler) { // <= implicit injection
         this.xtbAssembler = xtbAssembler;

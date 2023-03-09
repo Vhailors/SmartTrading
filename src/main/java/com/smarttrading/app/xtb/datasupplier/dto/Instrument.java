@@ -1,6 +1,6 @@
 package com.smarttrading.app.xtb.datasupplier.dto;
 
-import com.smarttrading.app.dto.OHLCV;
+import com.smarttrading.app.ai.dto.OHLCV;
 import lombok.Builder;
 import lombok.Data;
 import pro.xstore.api.message.codes.PERIOD_CODE;
