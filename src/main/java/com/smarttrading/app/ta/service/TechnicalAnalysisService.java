@@ -3,7 +3,7 @@ package com.smarttrading.app.ta.service;
 
 import com.smarttrading.app.ta.dto.ElliotWaveResponse;
 import com.smarttrading.app.ta.dto.SupportResistanceLevel;
-import com.smarttrading.app.ta.dto.TaResponse;
+import com.smarttrading.app.ta.dto.CandleStickPatternResponse;
 import com.smarttrading.app.ta.dto.Trend;
 import com.smarttrading.app.ta.indicators.ChannelBreak;
 import com.smarttrading.app.ta.indicators.ElliotPhaseWave;
@@ -36,42 +36,42 @@ public class TechnicalAnalysisService {
     private final ElliotPhaseWave elliotPhaseWave;
     private final ChannelBreak channelBreak;
 
-    public TaResponse detectCandleStickPattern(PERIOD_CODE periodCode, String symbol, long candlesNum, boolean realValue) throws APIErrorResponse, APICommunicationException, IOException, APIReplyParseException, APICommandConstructionException {
+    public CandleStickPatternResponse detectCandleStickPattern(PERIOD_CODE periodCode, String symbol, long candlesNum, boolean realValue) throws APIErrorResponse, APICommunicationException, IOException, APIReplyParseException, APICommandConstructionException {
         Instrument instrumentData =  xtbDataSupplierService.getInstrumentData(periodCode, symbol, candlesNum, realValue);
         List<OHLC> candles = instrumentData.getCandles();
 
         if(candleStickPatternService.isBearishEngulfing(candles)){
-            return TaResponse.builder()
+            return CandleStickPatternResponse.builder()
                     .pattern(CandleStickPattern.BEARISH_ENGULFING)
                     .direction(Trend.BEARISH).build();
         }
 
         if(candleStickPatternService.isBullishEngulfing(candles)){
-            return TaResponse.builder()
+            return CandleStickPatternResponse.builder()
                     .pattern(CandleStickPattern.BULLISH_ENGULFING)
                     .direction(Trend.BULLISH).build();
         }
 
         if(candleStickPatternService.isThreeWhiteSoldiers(candles)){
-            return TaResponse.builder()
+            return CandleStickPatternResponse.builder()
                     .pattern(CandleStickPattern.THREE_WHITE_SOLDIERS)
                     .direction(Trend.BULLISH).build();
         }
 
         if(candleStickPatternService.isThreeBlackCrows(candles)){
-            return TaResponse.builder()
+            return CandleStickPatternResponse.builder()
                     .pattern(CandleStickPattern.THREE_BLACK_CROWS)
                     .direction(Trend.BEARISH).build();
         }
 
         if(candleStickPatternService.isEveningStar(candles)){
-            return TaResponse.builder()
+            return CandleStickPatternResponse.builder()
                     .pattern(CandleStickPattern.EVENING_STAR)
                     .direction(Trend.BEARISH).build();
         }
 
         if(candleStickPatternService.isMorningStar(candles)){
-            return TaResponse.builder()
+            return CandleStickPatternResponse.builder()
                     .pattern(CandleStickPattern.MORNING_STAR)
                     .direction(Trend.BULLISH).build();
         }

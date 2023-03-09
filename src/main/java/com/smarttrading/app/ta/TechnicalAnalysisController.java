@@ -2,7 +2,7 @@ package com.smarttrading.app.ta;
 
 import com.smarttrading.app.ta.dto.ElliotWaveResponse;
 import com.smarttrading.app.ta.dto.SupportResistanceLevel;
-import com.smarttrading.app.ta.dto.TaResponse;
+import com.smarttrading.app.ta.dto.CandleStickPatternResponse;
 import com.smarttrading.app.ta.service.TechnicalAnalysisService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,11 +15,9 @@ import pro.xstore.api.message.codes.PERIOD_CODE;
 import pro.xstore.api.message.error.APICommandConstructionException;
 import pro.xstore.api.message.error.APICommunicationException;
 import pro.xstore.api.message.error.APIReplyParseException;
-import pro.xstore.api.message.records.TradeRecord;
 import pro.xstore.api.message.response.APIErrorResponse;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -41,10 +39,10 @@ public class TechnicalAnalysisController {
     }
 
     @GetMapping("/candlestick-patterns/")
-    public ResponseEntity<TaResponse> detectCandlestickPatterns(@RequestParam PERIOD_CODE timeFrame, @RequestParam String symbol, @RequestParam long candles, @RequestParam(defaultValue = "false", required = false) boolean realValues) throws APIErrorResponse, APICommunicationException, IOException, APIReplyParseException, APICommandConstructionException {
-        TaResponse taResponse = technicalAnalysisService.detectCandleStickPattern(timeFrame, symbol, candles, realValues);
-        if (Objects.nonNull(taResponse))
-            return ResponseEntity.ok(taResponse);
+    public ResponseEntity<CandleStickPatternResponse> detectCandlestickPatterns(@RequestParam PERIOD_CODE timeFrame, @RequestParam String symbol, @RequestParam long candles, @RequestParam(defaultValue = "false", required = false) boolean realValues) throws APIErrorResponse, APICommunicationException, IOException, APIReplyParseException, APICommandConstructionException {
+        CandleStickPatternResponse candleStickPatternResponse = technicalAnalysisService.detectCandleStickPattern(timeFrame, symbol, candles, realValues);
+        if (Objects.nonNull(candleStickPatternResponse))
+            return ResponseEntity.ok(candleStickPatternResponse);
         else return ResponseEntity.noContent().build();
     }
 }

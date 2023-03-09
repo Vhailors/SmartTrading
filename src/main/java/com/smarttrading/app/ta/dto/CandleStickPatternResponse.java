@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class TaResponse {
+public class CandleStickPatternResponse {
     CandleStickPattern pattern;
     Trend direction;
 }
