@@ -4,7 +4,7 @@ import com.smarttrading.app.ai.dto.OHLCV;
 import com.smarttrading.app.xtb.datasupplier.dto.Instrument;
 import com.smarttrading.app.xtb.datasupplier.dto.OHLC;
 import com.smarttrading.app.xtb.datasupplier.utils.DataSupplierUtils;
-import com.smarttrading.app.xtb.serivce.XtbService;
+import com.smarttrading.app.xtb.service.XtbService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pro.xstore.api.message.codes.PERIOD_CODE;
@@ -29,8 +29,18 @@ public class XtbDataSupplierService {
     public Instrument getInstrumentData(PERIOD_CODE periodCode, String symbol, long candles, boolean realValues) throws APIErrorResponse, APICommunicationException, IOException, APIReplyParseException, APICommandConstructionException {
         SyncAPIConnector connector = xtbService.init();
         ChartResponse chartResponse = APICommandFactory.executeChartLastCommand(connector, symbol, periodCode, DataSupplierUtils.getTimePeriodForReceiveCandles(periodCode, candles));
-        double price = xtbService.getSymbolActualPrice(symbol);
+        double price = xtbService.getSymbolActualPrice(symbol, connector);
         return mapXtbResponseToInstrument(chartResponse, periodCode, symbol, price, realValues);
+    }
+
+    public Instrument getInstrumentData(PERIOD_CODE periodCode, String symbol, long candles, boolean realValues, SyncAPIConnector connector) throws APIErrorResponse, APICommunicationException, IOException, APIReplyParseException, APICommandConstructionException {
+        try {
+            ChartResponse chartResponse = APICommandFactory.executeChartLastCommand(connector, symbol, periodCode, DataSupplierUtils.getTimePeriodForReceiveCandles(periodCode, candles));
+            double price = xtbService.getSymbolActualPrice(symbol, connector);
+            return mapXtbResponseToInstrument(chartResponse, periodCode, symbol, price, realValues);
+        } catch (APIErrorResponse e){
+            return null;
+        }
     }
 
     private Instrument mapXtbResponseToInstrument(ChartResponse chartResponse, PERIOD_CODE periodCode, String symbol, double value, boolean realValues) {

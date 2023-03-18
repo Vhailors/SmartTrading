@@ -147,6 +147,135 @@ public class CandleStickPatternService {
         return true;
     }
 
+    public boolean isBullishThreeLineStrike(List<OHLC> candles) {
+        if (candles.size() < 4) {
+            return false;
+        }
+        OHLC firstCandle = candles.get(candles.size() - 4);
+        OHLC secondCandle = candles.get(candles.size() - 3);
+        OHLC thirdCandle = candles.get(candles.size() - 2);
+        OHLC fourthCandle = candles.get(candles.size() - 1);
+
+        BigDecimal firstOpen = firstCandle.getOpen();
+        BigDecimal firstClose = firstCandle.getClose();
+        BigDecimal secondOpen = secondCandle.getOpen();
+        BigDecimal secondClose = secondCandle.getClose();
+        BigDecimal thirdOpen = thirdCandle.getOpen();
+        BigDecimal thirdClose = thirdCandle.getClose();
+        BigDecimal fourthOpen = fourthCandle.getOpen();
+        BigDecimal fourthClose = fourthCandle.getClose();
+
+        if (firstClose.compareTo(firstOpen) < 0 && secondClose.compareTo(secondOpen) < 0
+                && thirdClose.compareTo(thirdOpen) < 0 && fourthClose.compareTo(fourthOpen) > 0) {
+            BigDecimal firstBody = firstOpen.subtract(firstClose);
+            BigDecimal secondBody = secondOpen.subtract(secondClose);
+            BigDecimal thirdBody = thirdOpen.subtract(thirdClose);
+            BigDecimal fourthBody = fourthClose.subtract(fourthOpen);
+            BigDecimal minBody = firstBody.min(secondBody).min(thirdBody);
+            return fourthBody.compareTo(minBody.multiply(new BigDecimal(3))) >= 0;
+        }
+        return false;
+    }
+
+    public boolean isBearishThreeLineStrike(List<OHLC> candles) {
+        if (candles.size() < 4) {
+            return false;
+        }
+        OHLC firstCandle = candles.get(candles.size() - 4);
+        OHLC secondCandle = candles.get(candles.size() - 3);
+        OHLC thirdCandle = candles.get(candles.size() - 2);
+        OHLC fourthCandle = candles.get(candles.size() - 1);
+
+        BigDecimal firstOpen = firstCandle.getOpen();
+        BigDecimal firstClose = firstCandle.getClose();
+        BigDecimal secondOpen = secondCandle.getOpen();
+        BigDecimal secondClose = secondCandle.getClose();
+        BigDecimal thirdOpen = thirdCandle.getOpen();
+        BigDecimal thirdClose = thirdCandle.getClose();
+        BigDecimal fourthOpen = fourthCandle.getOpen();
+        BigDecimal fourthClose = fourthCandle.getClose();
+
+        if (firstClose.compareTo(firstOpen) > 0 && secondClose.compareTo(secondOpen) > 0
+                && thirdClose.compareTo(thirdOpen) > 0 && fourthClose.compareTo(fourthOpen) < 0) {
+            BigDecimal firstBody = firstClose.subtract(firstOpen);
+            BigDecimal secondBody = secondClose.subtract(secondOpen);
+            BigDecimal thirdBody = thirdClose.subtract(thirdOpen);
+            BigDecimal fourthBody = fourthOpen.subtract(fourthClose);
+            BigDecimal minBody = firstBody.min(secondBody).min(thirdBody);
+            return fourthBody.compareTo(minBody.multiply(new BigDecimal(3))) >= 0;
+        }
+        return false;
+    }
+
+    public boolean isConcealingBabySwallow(List<OHLC> candles) {
+        if (candles.size() < 5) {
+            return false;
+        }
+        OHLC firstCandle = candles.get(candles.size() - 5);
+        OHLC secondCandle = candles.get(candles.size() - 4);
+        OHLC thirdCandle = candles.get(candles.size() - 3);
+        OHLC fourthCandle = candles.get(candles.size() - 2);
+        OHLC fifthCandle = candles.get(candles.size() - 1);
+
+        BigDecimal firstOpen = firstCandle.getOpen();
+        BigDecimal firstClose = firstCandle.getClose();
+        BigDecimal secondOpen = secondCandle.getOpen();
+        BigDecimal secondClose = secondCandle.getClose();
+        BigDecimal thirdOpen = thirdCandle.getOpen();
+        BigDecimal thirdClose = thirdCandle.getClose();
+        BigDecimal fourthOpen = fourthCandle.getOpen();
+        BigDecimal fourthClose = fourthCandle.getClose();
+        BigDecimal fifthOpen = fifthCandle.getOpen();
+        BigDecimal fifthClose = fifthCandle.getClose();
+
+        if (firstClose.compareTo(firstOpen) < 0 && secondClose.compareTo(secondOpen) > 0) {
+            if (thirdClose.compareTo(thirdOpen) < 0 && thirdClose.compareTo(secondClose) < 0) {
+                if (fourthClose.compareTo(fourthOpen) > 0 && fifthClose.compareTo(fifthOpen) > 0
+                        && fourthClose.compareTo(thirdClose) > 0 && fifthOpen.compareTo(thirdOpen) < 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean isBearishHaramiCross(List<OHLC> candles) {
+        if (candles.size() < 5) {
+            return false;
+        }
+        OHLC firstCandle = candles.get(candles.size() - 5);
+        OHLC secondCandle = candles.get(candles.size() - 4);
+        OHLC thirdCandle = candles.get(candles.size() - 3);
+        OHLC fourthCandle = candles.get(candles.size() - 2);
+        OHLC fifthCandle = candles.get(candles.size() - 1);
+
+        BigDecimal firstOpen = firstCandle.getOpen();
+        BigDecimal firstClose = firstCandle.getClose();
+        BigDecimal secondOpen = secondCandle.getOpen();
+        BigDecimal secondClose = secondCandle.getClose();
+        BigDecimal thirdOpen = thirdCandle.getOpen();
+        BigDecimal thirdClose = thirdCandle.getClose();
+        BigDecimal fourthOpen = fourthCandle.getOpen();
+        BigDecimal fourthClose = fourthCandle.getClose();
+        BigDecimal fifthOpen = fifthCandle.getOpen();
+        BigDecimal fifthClose = fifthCandle.getClose();
+
+        // Sprawdzamy, czy dwie pierwsze świece są białe
+        if (firstClose.compareTo(firstOpen) > 0 && secondClose.compareTo(secondOpen) > 0) {
+            // Sprawdzamy, czy trzecia świeca jest czarna i zamyka się powyżej otwarcia drugiej świecy
+            if (thirdClose.compareTo(thirdOpen) < 0 && thirdClose.compareTo(secondOpen) > 0) {
+                // Sprawdzamy, czy czwarta świeca jest krótka i otwiera się powyżej zamknięcia trzeciej świecy
+                if (fourthClose.compareTo(fourthOpen) < 0 && fourthOpen.compareTo(thirdClose) < 0) {
+                    // Sprawdzamy, czy piąta świeca jest czarna i zamyka się poniżej otwarcia czwartej świecy
+                    if (fifthClose.compareTo(fifthOpen) < 0 && fifthClose.compareTo(fourthOpen) < 0) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     private boolean isWhite(OHLC ohlc) {
         return ohlc.getClose().compareTo(ohlc.getOpen()) > 0;
     }

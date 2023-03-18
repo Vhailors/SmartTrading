@@ -14,20 +14,22 @@ public class DataSupplierUtils {
     }
 
     public static long periodAsLong(PERIOD_CODE period_code) {
-        if (period_code == PERIOD_CODE.PERIOD_M5) {
-            return 5;
-        } else if (period_code == PERIOD_CODE.PERIOD_M15) {
-            return 15;
-        } else if (period_code == PERIOD_CODE.PERIOD_M30) {
-            return 30;
-        } else if (period_code == PERIOD_CODE.PERIOD_H1) {
+        if (period_code == PERIOD_CODE.PERIOD_M1) {
             return 60;
+        }else if (period_code == PERIOD_CODE.PERIOD_M5) {
+            return 60*5;
+        } else if (period_code == PERIOD_CODE.PERIOD_M15) {
+            return 60*15;
+        } else if (period_code == PERIOD_CODE.PERIOD_M30) {
+            return 60*30;
+        } else if (period_code == PERIOD_CODE.PERIOD_H1) {
+            return 60*60;
         } else if (period_code == PERIOD_CODE.PERIOD_H4) {
-            return 240;
+            return 60*240;
         } else if (period_code == PERIOD_CODE.PERIOD_D1) {
-            return 1440;
+            return 60*1440;
         } else if (period_code == PERIOD_CODE.PERIOD_W1) {
-            return 10080;
+            return 60*10080;
         }
         return 5;
     }

@@ -1,6 +1,23 @@
-finnhub-key: cg2ao89r01qq9k4974rgcg2ao89r01qq9k4974s0
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/smart-trading
+    username: postgres
+    password: FAr3z=G%
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true
+
+  h2:
+    console:
+      enabled: true
+  jooq:
+    sql-dialect: org.hibernate.dialect.MySQL55Dialect
 
 xtb:
-  login: "login"
-  password: "password"
+  login: "mocklogin"
+  password: "mockpassword"
 
+
+alpha-vintage: OS9RJPKMNU6UUDLW

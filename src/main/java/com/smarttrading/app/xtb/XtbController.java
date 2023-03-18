@@ -3,7 +3,7 @@ package com.smarttrading.app.xtb;
 import com.smarttrading.app.xtb.datasupplier.dto.Instrument;
 import com.smarttrading.app.xtb.datasupplier.service.XtbDataSupplierService;
 import com.smarttrading.app.xtb.dto.XtbRequest;
-import com.smarttrading.app.xtb.serivce.XtbService;
+import com.smarttrading.app.xtb.service.XtbService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

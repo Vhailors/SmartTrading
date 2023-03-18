@@ -35,12 +35,12 @@ public class TechnicalAnalysisController {
 
     @GetMapping("/ew/")
     public ElliotWaveResponse getElliotWave(@RequestParam PERIOD_CODE timeFrame, @RequestParam String symbol, @RequestParam long candles, @RequestParam(defaultValue = "false", required = false) boolean realValues) throws APIErrorResponse, APICommunicationException, IOException, APIReplyParseException, APICommandConstructionException {
-        return new ResponseEntity<>(technicalAnalysisService.getElliotWave(timeFrame, symbol, candles, realValues), HttpStatus.OK).getBody();
+        return new ResponseEntity<>(technicalAnalysisService.getElliotWave(timeFrame, symbol, candles, realValues, null), HttpStatus.OK).getBody();
     }
 
     @GetMapping("/candlestick-patterns/")
     public ResponseEntity<CandleStickPatternResponse> detectCandlestickPatterns(@RequestParam PERIOD_CODE timeFrame, @RequestParam String symbol, @RequestParam long candles, @RequestParam(defaultValue = "false", required = false) boolean realValues) throws APIErrorResponse, APICommunicationException, IOException, APIReplyParseException, APICommandConstructionException {
-        CandleStickPatternResponse candleStickPatternResponse = technicalAnalysisService.detectCandleStickPattern(timeFrame, symbol, candles, realValues);
+        CandleStickPatternResponse candleStickPatternResponse = technicalAnalysisService.detectCandleStickPattern(timeFrame, symbol, candles, realValues, null);
         if (Objects.nonNull(candleStickPatternResponse))
             return ResponseEntity.ok(candleStickPatternResponse);
         else return ResponseEntity.noContent().build();
